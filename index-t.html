@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+	 <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/bootstrap4.5.min.css">
+    <script src="assets/js/request.js"></script>
+    <style>
+        button.btns {
+            padding: 0 0.6rem 0.4rem 0.6rem;
+            line-height: 90%;
+            font-weight: bold;
+            font-size: 32px;
+            color: white;
+        }
+        button.minus {
+            font-size: 50px;
+            line-height: 10%;
+            padding: 0.5rem 0.6rem 1.3rem 0.6rem;
+        }
+        button.inc-dec {
+            line-height: 95%;
+            font-size: 25px;
+            padding: 0.1rem 0.7rem 0.4rem 0.7rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="container mb-5">
+            <div class="row mt-5 shadow p-3 mb-5 bg-white rounded">
+                <div class="col-md-6 justify-content-center">
+                    <form id="addGuardian" class="bg-gray" method="POST">
+                        <div class="fild-container">
+                            <div class="col-md-12">
+                                <h2>Set Child Info</h2>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Select Parent: </label>
+                                <select name="parent_id" class="form-control"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Name: </label>
+                                <input type="text" name="name" class="form-control" placeholder="Child name">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Email: </label>
+                                <input type="text" name="email" class="form-control" placeholder="E-mail">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Student Roll: </label>
+                                <input type="text" name="roll_no" class="form-control" placeholder="Enter Student Roll">
+                            </div>
+                            <!-- <div class="form-group">
+                                <label for="month">Current Month Day: </label>
+                                <select name="day" id="month" class="form-control"></select>
+                            </div> -->
+
+                            <!-- <div class="form-group">
+                                <label for="name">Comment: </label>
+                                <textarea name="comment" class="form-control" cols="5" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkbox">Check: <input id="checkbox" name="check" type="checkbox" value="Checked"></label><br>
+                                <p>
+                                    <label for="Male">Male: <input id="Male" name="gender" value="Male" type="radio"></label>
+                                    <label for="Female">Female<input id="Female" name="gender" value="Female" type="radio"></label>
+                                </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="file1" class="btn btn-success">Select A Photo<input hidden id="file1" type="file"></label>
+                            </div> -->
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Submit" class="btn btn-info">
+                        </div>
+                    </form>
+                </div>
+            </div> <!-- Form part end-->
+
+            <hr class="hr p-3">
+            <div class="row shadow p-3 mb-5 bg-white rounded">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="parent" class="label">Select Parent:</label>
+                        <select name="parent" id="parent" class="form-control"></select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="parent" class="label">Search Children:</label>
+                        <input type="text" class="form-control" placeholder="name / id / roll" name="search_child">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Roll</th>
+                                <th scope="col">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody id="children">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <hr class="hr p-3">
+            <div class="row shadow p-3 mb-5 bg-white rounded">
+                <div class="col-md-12">
+                    <h2>Invoice Manage</h2>
+                </div>
+                <div class="col-md-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th width="20%" scope="col">Product</th>
+                                <th width="20%" scope="col">Quantity</th>
+                                <th width="20%" scope="col">Sub total</th>
+                                <th width="10%" scope="col">Add more</th>
+                            </tr>
+                        </thead>
+                        <tbody id="invoice">
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <select onchange="productSelect(this)" name="product[]" class="form-control">
+                                            <option hidden value="0">Select Product</option>
+                                            <option data-price="2380" value="1">Panjabi</option>
+                                            <option data-price="1860" value="2">Shirt</option>
+                                            <option data-price="530" value="3">T-Shirt</option>
+                                            <option data-price="2650" value="4">Pent</option>
+                                        </select>
+                                    </div>
+                                    <input type="hidden" name="price[]">
+                                    <input type="hidden" name="quantity[]">
+                                    <input type="hidden" name="sub_total[]">
+                                </td>
+                                <td>
+                                    <button class="btn btn-xs border border-info inc-dec" type="button" onclick="countManage(1, this)">+</button>
+                                        <span class="qty m-4">0</span>
+                                    <button class="btn btn-xs border border-warning inc-dec" type="button" onclick="countManage(-1, this)">-</button>
+                                </td>
+                                <td class="subTotal">0</td>
+                                <td>
+                                    <button onclick="appendOrRemove(1, this)" type="button" class="btn btn-info btns">+</button>
+                                    <button onclick="appendOrRemove(-1, this)" type="button" class="btn btn-danger btns minus">-</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th colspan="2"></th>
+                                <th id="subTotal"></th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <hr class="hr p-3">
+            <div class="row shadow p-3 mb-5 bg-white rounded">
+
+            </div>
+
+        </div>
+    </div>
+
+<script>
+    function daysInThisMonth() {
+        var now = new Date();
+        return new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
+    }
+    var month = '<option selected disabled >Select day</option>'
+    for(let d = 0; d < daysInThisMonth(); d++) {
+        month += `<option value="${d+1}">${d+1}</option>`;
+    }
+    var monthContainer = document.getElementById('month');
+    monthContainer = monthContainer ? monthContainer.innerHTML = month:false;
+
+    var submitForm = document.getElementById('addGuardian');
+    submitForm.addEventListener('submit', formSubmitManage)
+
+    function formSubmitManage(event){
+        event.preventDefault();
+        Request.post(`http://localhost/javascript/App/api`, this, function(data) {
+            console.log('response-> ', data)
+        })
+        console.log('formData-> ', origin)
+    }
+
+
+    var guardians = [
+        {id:1, name: 'Abdullah', email:'abdullah@gmail.com', roll:1, value:5},
+        {id:2, name: 'Saifullah', email:'saifullah@gmail.com', roll:3, value:27},
+        {id:3, name: 'Mohammadullah', email:'mohammadullah@gmail.com', roll:7, value:39},
+        {id:4, name: 'Habibullah', email:'habibullah@gmail.com', roll:7, value:39},
+    ];
+    var children = [
+        {id:1, p_id:1, roll_no:1, name: 'Abdur Rahman', email:'abdurrahman@gmail.com', amount:58},
+        {id:2, p_id:1, roll_no:9, name: 'Hafiz Uddin', email:'Hafiziddin@gmail.com', amount:37},
+        {id:3, p_id:2, roll_no:2, name: 'Abdul Gaffar', email:'abdulgaffar@gmail.com', amount:51},
+        {id:4, p_id:3, roll_no:3, name: 'Abdul Hamid', email:'abdulhamid@gmail.com', amount:63},
+        {id:5, p_id:4, roll_no:4, name: 'Md. Alamin', email:'alamin@gmail.com', amount:38},
+        {id:6, p_id:2, roll_no:5, name: 'Abdul al Mamun', email:'almamun@gmail.com', amount:63},
+        {id:7, p_id:4, roll_no:6, name: 'Md. Nizam Uddin', email:'nizamuddin@gmail.com', amount:42},
+        {id:8, p_id:3, roll_no:8, name: 'Md. Selim', email:'mdselim@gmail.com', amount:51},
+        {id:9, p_id:4, roll_no:7, name: 'Md. Jahid Hasan', email:'jahidhasan@gmail.com', amount:61},
+        {id:10, p_id:2, roll_no:10, name: 'Md. Fahim', email:'mdfahim@gmail.com', amount:72},
+    ]
+
+    var parentSelectOption = document.getElementById('parent');
+    var childContainer = document.querySelector('table #children');
+    var subTotalContainer = document.querySelector('table #subTotal');
+    var childSearch = document.querySelector('input[name="search_child"]');
+    var parent_id;
+
+    var options = '<option selected disabled >Select Parent</option>';
+    guardians.map(guardian => {
+        options += `<option value="${guardian.id}">${guardian.name}</option>`;
+    })
+    var parent_el = document.querySelector('select[name="parent_id"]');
+    parent_el.innerHTML = options;
+    parentSelectOption.innerHTML = options;
+
+    parentSelectOption.addEventListener('change', getChildrenByParentId);
+    childSearch.addEventListener('keyup', searchChild);
+
+    function searchChild(params) {
+        // w = keyword user input letter
+        var w = this.value.toLowerCase();
+        var childData = children.filter(child => {
+            if(w.length > 0) {
+                var childId = child.id.toString();
+                var childRoll = child.roll_no.toString();
+                if(childRoll.includes(w) || childId.includes(w) || child.name.toLowerCase().includes(w)) {
+                    return child
+                }
+            }else if(parent_id && child.p_id === parent_id){
+                return child
+            }
+        });
+        manageChildTable(childData)
+    }
+
+    function getChildrenByParentId(e) {
+        parent_id = parseInt(this.value);
+        var childData = children.filter(child => child.p_id === parent_id);
+        manageChildTable(childData)
+    }
+
+
+    function manageChildTable(data) {
+        var output = '';
+        if(data.length > 0) {
+            data.map(child => {
+                output += `<tr>
+                    <td>${child.id}</td>
+                    <td>${child.name}</td>
+                    <td>${child.roll_no}</td>
+                    <td>${child.email}</td>
+                </tr>`;
+            });
+        }
+        childContainer.innerHTML = output;
+    }
+
+    function productSelect(select) {
+        var tr = select.offsetParent.parentElement;
+        var option = select.options[select.selectedIndex];
+        var price = parseFloat(option.dataset.price);
+        var inputs = tr.querySelectorAll('input');
+        var data = [price, 1, price];
+        inputs.forEach((input, i) => {
+            input.value = data[i];
+        });
+        tr.querySelector('td .qty').textContent = 1;
+        tr.querySelector('td.subTotal').textContent = price;
+        totalCount();
+    }
+
+    function countManage(plusMinus, btn) {
+        var tr = btn.offsetParent.parentElement;
+        var select = tr.querySelector('select');
+        var option = select.options[select.selectedIndex];
+        var price = parseFloat(option.dataset.price);
+        if(price && price > 0) {
+            var inputs = tr.querySelectorAll('input');
+            var quantityContainer = tr.querySelector('td .qty');
+            var quantity = parseInt(quantityContainer.textContent);
+
+            quantity = quantity + plusMinus;
+            quantity = quantity > 0 ? quantity:1;
+            var subTotal = quantity * price;
+            var data = [price, quantity, subTotal];
+            inputs.forEach((input, i) => {
+                input.value = data[i];
+            });
+            quantityContainer.textContent = quantity;
+            tr.querySelector('td.subTotal').textContent = subTotal;
+        }
+        totalCount();
+    }
+
+    function appendOrRemove(action, btn) {
+        var tr = btn.offsetParent.parentElement;
+        var rows = tr.offsetParent.querySelectorAll('tr');
+        if(action > 0) {
+            var newRow = tr.cloneNode(true)
+            newRow.querySelector('select').value = 0;
+            newRow.querySelector('td .qty').textContent = 0;
+            newRow.querySelector('td.subTotal').textContent = 0;
+            newRow.querySelectorAll('input').forEach(input => input.value = 0);
+
+            rows[rows.length-2].insertAdjacentElement('afterend', newRow)
+        }else if(rows.length > 3){
+            tr.remove();
+        }
+        totalCount();
+    }
+
+    function totalCount() {
+        subTotal = 0;
+        document.querySelectorAll('input[name="sub_total[]"]').forEach(input => {
+            subTotal += parseInt(input.value)
+        });
+        subTotalContainer.textContent = `Total: ${subTotal > 0 ? subTotal:0}`;
+    }
+
+
+</script>
+</body>
+</html>
